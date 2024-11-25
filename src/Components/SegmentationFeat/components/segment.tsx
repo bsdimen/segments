@@ -6,7 +6,7 @@ import { Segment } from '../../../SegmentsFeautre';
 // import CloseIcon from "../../../icons/closeCricle.svg"
 
 interface SegmentProps {
-  key: number;
+  key: string;
   imgRef: React.RefObject<HTMLImageElement>; // Receive the imgRef directly
   imgWidth: number;
   segment: Segment;
@@ -26,12 +26,13 @@ export default function SegmentUi({
   const [width, setWidth] = useState(0);
   const [height, setHeight] = useState(0);
 
+  const[isDeleted,setIsDeleted] = useState(segment.isDeleted)
   // Get the segment's coordinates from the segment prop
   const { "upper_left x": x1, "upper_left y": y1, "bottom_right x": x2, "bottom_right y": y2, "segment image url": segmentImageUrl } = segment;
 
 useEffect(() => {
   console.log(segment.isDeleted);
-}, [segment.isDeleted]);
+}, [isDeleted]);
 
   const calculateDimensions = useCallback(() => {
     if (imgRef.current) {
@@ -104,7 +105,7 @@ useEffect(() => {
 
   return (
     <motion.div
-       key={segment.isDeleted ? segment['segment image url'] : segment['segment image url']}
+       key={key}
       initial={{ scale: 1 }}
       whileHover={{ scale: 1.5, zIndex: 10000 }}
       onClick={handleDelete}
@@ -116,7 +117,7 @@ useEffect(() => {
         flex: "0 0 auto",
         height: height,
         transform: 'translate(-50%, -50%)',
-        border: segment.isDeleted ? '1px solid #DD4040' : '1px solid #703bf7',
+        border : segment.isDeleted ? '1px solid #DD4040': '1px solid #703bf7',
         boxSizing: 'content-box',
         cursor: 'pointer',
       }}
@@ -133,7 +134,7 @@ useEffect(() => {
           fontSize: 10,
           borderTopRightRadius: 4,
           borderBottomRightRadius: 4,
-          backgroundColor: '#703bf7',
+          backgroundColor: segment.isDeleted ? '#DD4040': '#703bf7',
           padding: '4px',
           display: 'flex',
           alignItems: 'center',

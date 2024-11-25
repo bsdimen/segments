@@ -1,7 +1,5 @@
-import GenerateSegment from "./Components/generateSegment";
 import SegmentationBoard from "./Components/SegmentationBoard";
 import { ImageSegmentsProvider } from "./Context/ImageSegmentsContext"; 
-import DisplayDocuments from "./prefabs/DisplayDocuments";
 export interface Segment {
   "bottom_right x": number;
   "bottom_right y": number;
