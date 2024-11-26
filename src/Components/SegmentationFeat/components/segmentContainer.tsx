@@ -23,8 +23,9 @@ export default function SegmentContainer({ data, imgWidth }: SegmentContainerPro
   // Handle image load event
   const handleImageLoad = () => {
     setIsImageLoaded(true) // Set state once image is fully loaded
-  };
-const handleDeleteSegment = (url: string) => {
+  }
+
+  const handleDeleteSegment = (url: string) => {
 
   const newSegments = segments.map(image => {
 
@@ -44,9 +45,10 @@ const handleDeleteSegment = (url: string) => {
   
   })}
 
-   const toggleDelete = (url: string) => {
+  const toggleDelete = (url: string) => {
       handleDeleteSegment(url)    
   }
+
   useEffect(() => {
     const foundDoc = segments.find((image) => image.original_image_url === data.original_image_url); // Replace with the correct url
     if (foundDoc) {
@@ -54,33 +56,52 @@ const handleDeleteSegment = (url: string) => {
     }
   }, [segments,data]);
 
-  return (
-    <div style={{position:"relative", width: imgWidth}}>
-         {currentDoc && (
-    <>
-      {/* Render the image */}
-      <img
-        ref={imgRef}
-        src={currentDoc.original_image_url}
-        alt="Original Image"
-        style={{ width: imgWidth }}
-        onLoad={handleImageLoad}
-      />
+  const [isLoading, setIsLoading] = useState(true);
 
-      {/* Render the segments */}
-      {currentDoc.segments.map((segment) => (
-        <SegmentUi
-          key={segment['segment image url']}
-          imgWidth={imgWidth}
-          segment={segment}
-          imgRef={imgRef}
-          onDelete={() => toggleDelete(segment["segment image url"])}
-        />
-      ))}
-    </>
-  )}
+  useEffect(() => {
+    // Simulate loading time (replace with actual readiness checks if needed)
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000); // Adjust the delay as needed (e.g., 1 second)
+
+    return () => clearTimeout(timer); // Cleanup timer
+  }, [data,imgWidth]);
+
+  return (
+     <div style={{ position: 'relative', width: imgWidth }}>
+      {isLoading ? (
+        // Loading state (can be a spinner or a message)
+        <div>LOADING...</div>
+      ) : (
+        <>
+          {/* Render the image */}
+          {currentDoc && (
+            <>
+              <img
+                ref={imgRef}
+                src={currentDoc.original_image_url}
+                alt="Original Image"
+                style={{ width: imgWidth, border: '1px solid #703bf7' }}
+                onLoad={handleImageLoad}
+              />
+
+              {/* Render the segments */}
+              {currentDoc.segments.map((segment) => (
+                <SegmentUi
+                  key={segment['segment image url']}
+                  imgWidth={imgWidth}
+                  segment={segment}
+                  imgRef={imgRef}
+                  onDelete={() => toggleDelete(segment['segment image url'])}
+                />
+              ))}
+            </>
+          )}
+        </>
+      )}
     </div>
-  );
+   
+  )
 }
 
 

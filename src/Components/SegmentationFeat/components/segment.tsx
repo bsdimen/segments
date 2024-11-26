@@ -21,18 +21,15 @@ export default function SegmentUi({
   onDelete,
 }: SegmentProps) {
   const [isHovered, setIsHovered] = useState(false);
-  const [newX, setNewX] = useState(0);
-  const [newY, setNewY] = useState(0);
-  const [width, setWidth] = useState(0);
-  const [height, setHeight] = useState(0);
+  const [newX, setNewX] = useState(0)
+  const [newY, setNewY] = useState(0)
+  const [width, setWidth] = useState(0)
+  const [height, setHeight] = useState(0)
 
-  const[isDeleted,setIsDeleted] = useState(segment.isDeleted)
+  const [isExpanded, setIsExpanded] = useState(false);
   // Get the segment's coordinates from the segment prop
   const { "upper_left x": x1, "upper_left y": y1, "bottom_right x": x2, "bottom_right y": y2, "segment image url": segmentImageUrl } = segment;
 
-useEffect(() => {
-  console.log(segment.isDeleted);
-}, [isDeleted]);
 
   const calculateDimensions = useCallback(() => {
     if (imgRef.current) {
@@ -59,7 +56,7 @@ useEffect(() => {
       calculateDimensions();
       console.log("Dimensions recalculated:", { newX, newY, width, height });
     }
-  }, [imgWidth, x1, y1, x2, y2]);
+  }, [imgWidth, x1, y1, x2, y2,imgRef]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -117,7 +114,7 @@ useEffect(() => {
         flex: "0 0 auto",
         height: height,
         transform: 'translate(-50%, -50%)',
-        border : segment.isDeleted ? '1px solid #DD4040': '1px solid #703bf7',
+        border : segment.isDeleted ? '1px solid #DD4040': '1px solid #10C572',
         boxSizing: 'content-box',
         cursor: 'pointer',
       }}
@@ -126,25 +123,28 @@ useEffect(() => {
     >
       <motion.img src={segmentImageUrl} alt="Segment Image" style={{ width: width }} />
       <motion.span
-        style={{
-          position: 'absolute',
-          top: -2,
-          left: width,
-          color: 'white',
-          fontSize: 10,
-          borderTopRightRadius: 4,
-          borderBottomRightRadius: 4,
-          backgroundColor: segment.isDeleted ? '#DD4040': '#703bf7',
-          padding: '4px',
-          display: 'flex',
-          alignItems: 'center',
-          gap: 4,
-          maxWidth: 150,
-        }}
-      >
-        {/* <img src={CloseIcon} style={{ width: 16, fill: '#fff'}} /> */}
-        {segment.title}
-      </motion.span>
+      style={{
+        position: 'absolute',
+        top: -2,
+        left: width + 5,
+        color: 'white',
+        fontSize: 10,
+        borderRadius: 4,
+        backgroundColor: segment.isDeleted ? '#DD4040' : '#10C572',
+        padding: '4px',
+        display: 'flex',
+        alignItems: 'center',
+        gap: 4,
+        maxWidth: 150,
+      }}
+      className={`transition-all whitespace-normal ${isExpanded ? '' : 'line-clamp-1'}`}
+      layout
+      transition={{ duration: 0, ease: 'linear' }}
+      onMouseEnter={() => setIsExpanded(true)}
+      onMouseLeave={() => setIsExpanded(false)}
+    >
+      {segment.title}
+    </motion.span>
     </motion.div>
   );
 }

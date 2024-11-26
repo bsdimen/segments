@@ -85,7 +85,7 @@ const imageSegments = [
             }
         ]
     }
-];
+]
 
 function addIsDeletedAttribute(imageSegments: ImageSegments[]) : ImageSegments[]{
     return imageSegments.map(segment => {

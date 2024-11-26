@@ -15,20 +15,20 @@ export default function DisplayDocuments({handleSelection}: DisplayDocumentsProp
   };
 
 
-    return <div className="w-[200px] h-fit ">
-        <h1 className="text-2xl font-medium border-b border-b-solid border-b-gray-600 py-2">Documents</h1>
-        <div className="flex flex-col w-full  gap-3">
+    return <div className="w-[550px] h-fit  mb-7">
+        <h1 className="text-2xl font-bold mb-3">Thumbnails list</h1>
+        <div className="flex flex-row w-full  gap-5">
 {segments.map((segment, index) => (
         <div
           key={index}
           onClick={() => handleImageClick(index)} 
           style={{
             cursor: 'pointer', 
-            border: selectedDocs === index ? '1px solid blue' : 'none', 
-            width:"fit-content"
+            width:"fit-content",
           }}
         >
-          <img src={segment.original_image_url} alt={`segment ${index}`} style={{ width: 80 }} />
+          <img src={segment.original_image_url} alt={`segment ${index}`} style={{ width: 100,    borderRadius:8,             border: selectedDocs === index ? '2px solid #703bf7' : 'none',   }} />
+         { selectedDocs === index && <span className="text-[#703bf7] font-medium text-sm w-full text-center my-2 block " >Selected</span>}
         </div>
       ))}
         </div>
