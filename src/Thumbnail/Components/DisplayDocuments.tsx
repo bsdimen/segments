@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useImageSegments } from "../Context/ImageSegmentsContext";
+import { useImageSegments } from "../../Context/ImageSegmentsContext";
 import { ImageSegments } from "../SegmentsFeautre";
 
 interface DisplayDocumentsProps {

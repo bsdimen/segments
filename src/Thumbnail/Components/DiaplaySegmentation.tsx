@@ -1,6 +1,6 @@
 
-import { ImageSegments } from '../../SegmentsFeautre';
-import SegmentContainer from './components/segmentContainer';
+import { ImageSegments } from '../SegmentsFeautre';
+import SegmentContainer from './segmentContainer';
 
 interface DisplaySegmentationProps {
   doc: ImageSegments | null

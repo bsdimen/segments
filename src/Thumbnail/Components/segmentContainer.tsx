@@ -1,8 +1,8 @@
-import React, { useRef , useState, useEffect} from 'react'
+import  { useRef , useState, useEffect} from 'react'
 import SegmentUi from './segment'
-import { Segment } from '../../../SegmentsFeautre'
-import { useImageSegments } from '../../../Context/ImageSegmentsContext'
-import { ImageSegments } from '../../../SegmentsFeautre'
+import { Segment } from '../SegmentsFeautre'
+import { useImageSegments } from '../../Context/ImageSegmentsContext'
+import { ImageSegments } from '../SegmentsFeautre'
 
 interface SegmentContainerProps {
   data: {
@@ -20,30 +20,26 @@ export default function SegmentContainer({ data, imgWidth }: SegmentContainerPro
   const { segments, setSegments } = useImageSegments()
 
 
-  // Handle image load event
   const handleImageLoad = () => {
-    setIsImageLoaded(true) // Set state once image is fully loaded
+    setIsImageLoaded(true) 
   }
 
   const handleDeleteSegment = (url: string) => {
+      const updatedSegments = segments.map(image => {
+        const updatedImageSegments = image.segments.map(segment => {
+          if (segment.segment_image_url === url) {
+            return { ...segment, isDeleted: !segment.isDeleted }; // Toggle isDeleted
+          }
+          return segment;
+        });
 
-  const newSegments = segments.map(image => {
+        return { ...image, segments: updatedImageSegments };
+      });
 
-    const updatedSegments = segments.map(image => {
-      const updatedImageSegments = image.segments.map(segment => {
-        if (segment["segment image url"] === url) {
-          return { ...segment, isDeleted: !segment.isDeleted } // Toggle isDeleted
-        }
-        return segment
-      })
+  console.log(updatedSegments);
+  setSegments(updatedSegments);
+};
 
-      return { ...image, segments: updatedImageSegments }
-    })
-    console.log(updatedSegments)
-
-    setSegments(updatedSegments)
-  
-  })}
 
   const toggleDelete = (url: string) => {
       handleDeleteSegment(url)    
@@ -52,30 +48,24 @@ export default function SegmentContainer({ data, imgWidth }: SegmentContainerPro
   useEffect(() => {
     const foundDoc = segments.find((image) => image.original_image_url === data.original_image_url); // Replace with the correct url
     if (foundDoc) {
-      setCurrentDoc(foundDoc); // Store the found ImageSegments object in state
+      setCurrentDoc(foundDoc); 
     }
   }, [segments,data]);
 
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate loading time (replace with actual readiness checks if needed)
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 1000); // Adjust the delay as needed (e.g., 1 second)
+    }, 1000); 
 
-    return () => clearTimeout(timer); // Cleanup timer
+    return () => clearTimeout(timer); 
   }, [data,imgWidth]);
 
   return (
      <div style={{ position: 'relative', width: imgWidth }}>
-      {isLoading ? (
-        // Loading state (can be a spinner or a message)
-        <div>LOADING...</div>
-      ) : (
         <>
-          {/* Render the image */}
-          {currentDoc && (
+        {currentDoc && (
             <>
               <img
                 ref={imgRef}
@@ -86,19 +76,18 @@ export default function SegmentContainer({ data, imgWidth }: SegmentContainerPro
               />
 
               {/* Render the segments */}
-              {currentDoc.segments.map((segment) => (
+              {isImageLoaded && currentDoc.segments.map((segment) => (
                 <SegmentUi
-                  key={segment['segment image url']}
+                  key={segment.segment_image_url}
                   imgWidth={imgWidth}
                   segment={segment}
                   imgRef={imgRef}
-                  onDelete={() => toggleDelete(segment['segment image url'])}
+                  onDelete={() => toggleDelete(segment.segment_image_url)}
                 />
               ))}
             </>
           )}
         </>
-      )}
     </div>
    
   )

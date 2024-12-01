@@ -1,4 +1,5 @@
-import SegmentFeature, { ImageSegments } from "./SegmentsFeautre";
+import { ComponentStateProvider } from "./Context/StateContext";
+import { GenerateSegment } from "./Components/GenerateSegment";
 
 const imageSegments = [
     {
@@ -87,26 +88,20 @@ const imageSegments = [
     }
 ]
 
-function addIsDeletedAttribute(imageSegments: ImageSegments[]) : ImageSegments[]{
-    return imageSegments.map(segment => {
-        return {
-            ...segment,
-            segments: segment.segments.map(subSegment => ({
-                ...subSegment,
-                isDeleted: false
-            }))
-        };
-    });
-}
+const docs = [
+  "https://hubforward-drive.fra1.cdn.digitaloceanspaces.com/GeminiSamples/derm-report-scaled-1.jpeg",
+  "https://hubforward-drive.fra1.cdn.digitaloceanspaces.com/GeminiSamples/CT%20Brain%201.png",
+  "https://hubforward-drive.fra1.cdn.digitaloceanspaces.com/VitallsProdFolder/Vitalls/patient/decryptedMedicalRecords/1b52a879/1730893361_672b5631d04f30.53752244_1000088918.png",
+  "https://hubforward-drive.fra1.cdn.digitaloceanspaces.com/GeminiSamples/ECG%20Template%202.png"
+]
 
-const updatedImageSegments = addIsDeletedAttribute(imageSegments);
-console.log(updatedImageSegments)
 
 export default function App() {
+
   return (
-    <div className="bg-[#f4f4f4] min-h-[100vh] flex item-center justify-center">
-<SegmentFeature imagesSegments={updatedImageSegments} />
-    </div>
+        <ComponentStateProvider>
+                <GenerateSegment doc={docs} />
+        </ComponentStateProvider>
   );
 }
 

@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, ReactNode, Dispatch, SetStateAction } from "react";
 
-import { ImageSegments } from "../SegmentsFeautre";
+import { ImageSegments } from "../Thumbnail/SegmentsFeautre";
 
 // Define the shape of the context value
 interface ImageSegmentsContextType {

@@ -1,8 +1,8 @@
 import DisplayDocuments from "./DisplayDocuments";
-import DisplaySegmentation from "./SegmentationFeat/DiaplaySegmentation";
+import DisplaySegmentation from "./DiaplaySegmentation";
 import {ImageSegments} from "../SegmentsFeautre";
 import { useState } from "react";
-import { useImageSegments } from "../Context/ImageSegmentsContext";
+import { useImageSegments } from "../../Context/ImageSegmentsContext";
 
 export default function SegmentationBoard() {
 
@@ -11,7 +11,6 @@ export default function SegmentationBoard() {
     const {segments} = useImageSegments();
 
     const handleSelection = (docs: ImageSegments)=> {
-        setSelectedDocs(null)
         setSelectedDocs(null)
         setSelectedDocs(docs)
     }

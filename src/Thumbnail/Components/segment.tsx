@@ -1,7 +1,7 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect,useLayoutEffect  } from 'react';
 import { motion } from 'framer-motion';
-import { useImageSegments } from "../../../Context/ImageSegmentsContext";
-import { Segment } from '../../../SegmentsFeautre';
+import { useImageSegments } from "../../Context/ImageSegmentsContext";
+import { Segment } from '../SegmentsFeautre';
 
 // import CloseIcon from "../../../icons/closeCricle.svg"
 
@@ -27,8 +27,7 @@ export default function SegmentUi({
   const [height, setHeight] = useState(0)
 
   const [isExpanded, setIsExpanded] = useState(false);
-  // Get the segment's coordinates from the segment prop
-  const { "upper_left x": x1, "upper_left y": y1, "bottom_right x": x2, "bottom_right y": y2, "segment image url": segmentImageUrl } = segment;
+  const { upper_left_x: x1, upper_left_y: y1, bottom_right_x: x2, bottom_right_y: y2, segment_image_url: segmentImageUrl } = segment;
 
 
   const calculateDimensions = useCallback(() => {
@@ -50,7 +49,7 @@ export default function SegmentUi({
     }
   }, [imgRef, imgWidth, x1, y1, x2, y2]);
 
-  useEffect(() => {
+  useLayoutEffect (() => {
     // Only recalculate dimensions when the image or segment changes
     if (imgRef.current) {
       calculateDimensions();
