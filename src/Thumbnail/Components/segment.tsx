@@ -1,6 +1,5 @@
 import React, { useState, useCallback, useEffect,useLayoutEffect  } from 'react';
 import { motion } from 'framer-motion';
-import { useImageSegments } from "../../Context/ImageSegmentsContext";
 import { Segment } from '../SegmentsFeautre';
 
 // import CloseIcon from "../../../icons/closeCricle.svg"
