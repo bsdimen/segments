@@ -25,7 +25,7 @@ export function GenerateSegment({ doc }: GenerateSegmentProps) {
       console.log(jsonData);
 
       const response = await axios.post(
-        `https://gemini.vitalls.ai/sub_images_and_coordinates`,
+        `https://gemini.vitalls.ai/coordinates_and_image_id`,
        jsonData,
         {headers: {
             'Content-Type': 'application/json',
@@ -52,7 +52,7 @@ export function GenerateSegment({ doc }: GenerateSegmentProps) {
       segments: item.segments.map((segment: any) => ({
         bottom_right_x: segment['bottom_right x'],
         bottom_right_y: segment['bottom_right y'],
-        segment_image_url: segment['segment image url'],
+        segment_image_url: segment['image_id'],
         title: segment.title,
         upper_left_x: segment['upper_left x'],
         upper_left_y: segment['upper_left y'],
